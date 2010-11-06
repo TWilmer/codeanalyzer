@@ -16,6 +16,7 @@ AM_CFLAGS =\
 bin_PROGRAMS = codeanalyzer
 
 codeanalyzer_SOURCES =  icon.h \
+	FileParser.cpp \
 	main.cc
 
 codeanalyzer_LDFLAGS = 

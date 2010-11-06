@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 #include <gtkmm.h>
 #include <iostream>
 
@@ -37,6 +36,7 @@
 #include <time.h>
 #include <unistd.h>
 
+#include "FileParser.hpp"
 
 namespace icon
 {
@@ -78,10 +78,37 @@ static const IconData sIconData[] =
 
    };
 
-   
+FileParser *theParser;
+
+void doOpen()
+{
+printf("Open\n");
+}
+void doEnd()
+{
+   Gtk::Main::quit();
+}
+
+Gtk::AboutDialog *about;
+void doHelp()
+{
+   about->show();
+}
+void doAboutClose(int a)
+{
+   about->hide();
+}
+
+void onFinished()
+{
+
+}
+
 int
 main (int argc, char *argv[])
 {
+   if(!Glib::thread_supported()) Glib::thread_init();
+
 	Gtk::Main kit(argc, argv);
 
 	int binary_gtk_pinmaster_glade_size = &GLADE_END - &GLADE_START;
@@ -101,6 +128,25 @@ main (int argc, char *argv[])
 	Gtk::Window* main_win = 0;
 	builder->get_widget("main_window", main_win);
 
+	Gtk::MenuItem* open=0;
+	builder->get_widget("menu_open",open);
+	open->signal_activate().connect( sigc::ptr_fun(doOpen));
+
+	Gtk::MenuItem* end=0;
+	   builder->get_widget("menu_end",end);
+	   end->signal_activate().connect( sigc::ptr_fun(doEnd));
+
+	   Gtk::MenuItem* help=0;
+	      builder->get_widget("menu_help",help);
+	      help->signal_activate().connect( sigc::ptr_fun(doHelp));
+
+
+	      builder->get_widget("aboutdialog",about);
+	      about->signal_response().connect(sigc::ptr_fun(doAboutClose));
+
+
+
+
  Glib::RefPtr<Gtk::IconFactory> factory = Gtk::IconFactory::create();
 
    std::list<Glib::RefPtr<Gdk::Pixbuf> > iconList;
@@ -115,6 +161,12 @@ main (int argc, char *argv[])
    }
 
    Gtk::Window::set_default_icon_list(iconList);
+
+   theParser=new FileParser(1);
+
+   theParser->signal_finished().connect(
+            sigc::ptr_fun(onFinished));
+
 
 	if (main_win)
 	{
