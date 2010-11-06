@@ -79,9 +79,59 @@ static const IconData sIconData[] =
    };
 
 FileParser *theParser;
-
+Gtk::Window* main_win = 0;
 void doOpen()
 {
+   Gtk::FileChooserDialog dialog("Please choose a file",
+            Gtk::FILE_CHOOSER_ACTION_OPEN);
+    dialog.set_transient_for(*main_win);
+
+    //Add response buttons the the dialog:
+    dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
+    dialog.add_button(Gtk::Stock::OPEN, Gtk::RESPONSE_OK);
+
+    //Add filters, so that only certain file types can be selected:
+
+    Gtk::FileFilter filter_text;
+    filter_text.set_name("Symbol File");
+    filter_text.add_pattern("*.sym");
+    dialog.add_filter(filter_text);
+
+
+    Gtk::FileFilter filter_any;
+    filter_any.set_name("Any files");
+    filter_any.add_pattern("*");
+    dialog.add_filter(filter_any);
+
+    //Show the dialog and wait for a user response:
+    int result = dialog.run();
+
+    //Handle the response:
+    switch(result)
+    {
+      case(Gtk::RESPONSE_OK):
+      {
+        std::cout << "Open clicked." << std::endl;
+
+        //Notice that this is a std::string, not a Glib::ustring.
+        std::string filename = dialog.get_filename();
+        std::cout << "File selected: " <<  filename << std::endl;
+
+        theParser->launch();
+        break;
+      }
+      case(Gtk::RESPONSE_CANCEL):
+      {
+        std::cout << "Cancel clicked." << std::endl;
+        break;
+      }
+      default:
+      {
+        std::cout << "Unexpected button clicked." << std::endl;
+        break;
+      }
+    }
+
 printf("Open\n");
 }
 void doEnd()
@@ -101,7 +151,16 @@ void doAboutClose(int a)
 
 void onFinished()
 {
+printf("Test\n");
+}
 
+Gtk::ProgressBar *theProgressBar;
+void onProgress(int a)
+{
+   printf("Done: %d\n",a);
+   double f=(double)a/100;
+   printf("Data %f",f);
+ theProgressBar->set_fraction(f);
 }
 
 int
@@ -125,7 +184,7 @@ main (int argc, char *argv[])
 		std::cerr << ex.what() << std::endl;
 		return 1;
 	}
-	Gtk::Window* main_win = 0;
+
 	builder->get_widget("main_window", main_win);
 
 	Gtk::MenuItem* open=0;
@@ -145,7 +204,7 @@ main (int argc, char *argv[])
 	      about->signal_response().connect(sigc::ptr_fun(doAboutClose));
 
 
-
+	      builder->get_widget("progressbar",theProgressBar);
 
  Glib::RefPtr<Gtk::IconFactory> factory = Gtk::IconFactory::create();
 
@@ -167,6 +226,8 @@ main (int argc, char *argv[])
    theParser->signal_finished().connect(
             sigc::ptr_fun(onFinished));
 
+   theParser->signal_progress().connect(
+            sigc::ptr_fun(onProgress));
 
 	if (main_win)
 	{

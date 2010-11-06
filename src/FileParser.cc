@@ -34,6 +34,7 @@ int FileParser::id() const
 void FileParser::launch()
 {
   // Create a joinable thread.
+   progress_=0;
   thread_ = Glib::Thread::create(sigc::mem_fun(*this, &FileParser::thread_function), true);
 }
 
@@ -52,6 +53,10 @@ sigc::signal<void>& FileParser::signal_finished()
 {
   return signal_finished_;
 }
+sigc::signal<void,int>& FileParser::signal_progress()
+{
+  return signal_progress_;
+}
 
 void FileParser::progress_increment()
 {
@@ -60,6 +65,7 @@ void FileParser::progress_increment()
 
   if (progress_ >= ITERATIONS)
     signal_finished_();
+  signal_progress_(progress_);
 }
 
 void FileParser::thread_function()
@@ -68,7 +74,7 @@ void FileParser::thread_function()
 
   for (int i = 0; i < ITERATIONS; ++i)
   {
-    Glib::usleep(rand.get_int_range(2000, 20000));
+    Glib::usleep(rand.get_int_range(6000, 20000));
 
     // Tell the main thread to increment the progress value.
     signal_increment_();

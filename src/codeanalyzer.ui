@@ -226,6 +226,14 @@
             <property name="position">2</property>
           </packing>
         </child>
+        <child>
+          <object class="GtkProgressBar" id="progressbar">
+            <property name="visible">True</property>
+          </object>
+          <packing>
+            <property name="position">3</property>
+          </packing>
+        </child>
       </object>
     </child>
   </object>

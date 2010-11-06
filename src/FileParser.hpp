@@ -20,7 +20,7 @@ public:
   bool unfinished() const;
 
   sigc::signal<void>& signal_finished();
-
+  sigc::signal<void,int>& signal_progress();
 private:
   enum { ITERATIONS = 100 };
 
@@ -32,7 +32,7 @@ private:
   unsigned int progress_;
   Glib::Dispatcher signal_increment_;
   sigc::signal<void> signal_finished_;
-
+  sigc::signal<void,int> signal_progress_;
   void progress_increment();
   void thread_function();
 };
