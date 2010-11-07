@@ -18,10 +18,12 @@ AC_HEADER_STDC
 
 
 
-
+AC_CHECK_DECLS(basename)
 
 AM_PROG_LIBTOOL
 
+
+AC_CHECK_LIB([bfd], [bfd_init], , [ac_found_bfd=no])
 
 
 PKG_CHECK_MODULES(CODEANALYZER, [gtkmm-2.4 >= 2.16    ])

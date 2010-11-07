@@ -11,16 +11,27 @@
 class FileParser
 {
 public:
+      class MyModelColumns : public Gtk::TreeModel::ColumnRecord
+      {
+      public:
+        Gtk::TreeModelColumn<unsigned int> size;
+        Gtk::TreeModelColumn<Glib::ustring> symbol;
+        Gtk::TreeModelColumn<Glib::ustring> stab;
+
+        MyModelColumns() { add(size); add(stab); add(symbol);  }
+      };
+      MyModelColumns mColumns;
   explicit FileParser(int id);
   virtual ~FileParser();
 
   int id() const;
-  void launch();
+  void launch(const std::string &filename);
   void join();
   bool unfinished() const;
 
   sigc::signal<void>& signal_finished();
   sigc::signal<void,int>& signal_progress();
+  Glib::RefPtr<Gtk::ListStore> getSymbols(){return mSymbols;}
 private:
   enum { ITERATIONS = 100 };
 
@@ -35,6 +46,8 @@ private:
   sigc::signal<void,int> signal_progress_;
   void progress_increment();
   void thread_function();
+  Glib::RefPtr<Gtk::ListStore> mSymbols;
+  std::string mFile;
 };
 
 

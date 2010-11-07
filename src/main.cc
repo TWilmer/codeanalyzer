@@ -80,6 +80,8 @@ static const IconData sIconData[] =
 
 FileParser *theParser;
 Gtk::Window* main_win = 0;
+
+Gtk::TreeView* theSymbolsView=0;
 void doOpen()
 {
    Gtk::FileChooserDialog dialog("Please choose a file",
@@ -93,8 +95,12 @@ void doOpen()
     //Add filters, so that only certain file types can be selected:
 
     Gtk::FileFilter filter_text;
-    filter_text.set_name("Symbol File");
-    filter_text.add_pattern("*.sym");
+    filter_text.set_name("Application File");
+    filter_text.add_mime_type("application/x-executable");
+    dialog.add_filter(filter_text);
+
+    filter_text.set_name("Object File");
+    filter_text.add_mime_type("application/x-object");
     dialog.add_filter(filter_text);
 
 
@@ -117,7 +123,7 @@ void doOpen()
         std::string filename = dialog.get_filename();
         std::cout << "File selected: " <<  filename << std::endl;
 
-        theParser->launch();
+        theParser->launch(filename);
         break;
       }
       case(Gtk::RESPONSE_CANCEL):
@@ -151,7 +157,10 @@ void doAboutClose(int a)
 
 void onFinished()
 {
-printf("Test\n");
+   theSymbolsView->set_model(theParser->getSymbols());
+   theSymbolsView->append_column("Size", theParser->mColumns.size);
+   theSymbolsView->append_column("S", theParser->mColumns.stab);
+   theSymbolsView->append_column("Symbol", theParser->mColumns.symbol);
 }
 
 Gtk::ProgressBar *theProgressBar;
@@ -205,6 +214,8 @@ main (int argc, char *argv[])
 
 
 	      builder->get_widget("progressbar",theProgressBar);
+	      builder->get_widget("symbolsView",theSymbolsView);
+
 
  Glib::RefPtr<Gtk::IconFactory> factory = Gtk::IconFactory::create();
 
