@@ -18,6 +18,7 @@ FileParser::FileParser(int id) :
 {
    // Connect to the cross-thread signal.
    signal_increment_.connect(sigc::mem_fun(*this, &FileParser::progress_increment));
+
 }
 
 FileParser::~FileParser()
@@ -61,66 +62,64 @@ sigc::signal<void, int>& FileParser::signal_progress()
 
 void FileParser::progress_increment()
 {
-   ++progress_;
-   std::cout << "Thread " << id_ << ": " << progress_ << '%' << std::endl;
 
    if (progress_ >= ITERATIONS)
       signal_finished_();
    signal_progress_(progress_);
 }
 
-void show_globals(asymbol *sym, bfd *abfd, asymbol **syms,Glib::ustring &file) {
+void show_globals(asymbol *sym, bfd *abfd, asymbol **syms, Glib::ustring &file)
+{
    const char *filename;
    const char *funcname;
    unsigned int line;
-   if (sym->flags & BSF_GLOBAL) {
+   if (sym->flags & BSF_GLOBAL)
+   {
 
       if (bfd_find_nearest_line(abfd, sym->section, syms, sym->value,
-            &filename, &funcname, &line)) {
-         if(filename!=0)
+            &filename, &funcname, &line))
+      {
+         if (filename != 0)
          {
-            file="ALL/";
+            file = "ALL/";
             file.append(filename);
             return;
-      //      printf("  in func %s- %s: %d\n", funcname, filename, line);
+            //      printf("  in func %s- %s: %d\n", funcname, filename, line);
          }
       }
    }
-   file="ALL";
+   file = "ALL";
    return;
 
 }
 
-
-void FileParser::addEntry(const Glib::ustring &file, const Glib::ustring &symbol, int size )
+void FileParser::addEntry(const Glib::ustring &file, const Glib::ustring &symbol, int size)
 {
 
-Gtk::TreeIter iter=mSizeDistribution->get_iter("0");
-Glib::ustring curName="";
-printf("Inserting: %s\n", file.c_str());
-/*for(Glib::ustring::iterator it=file.begin();it!=file.end();it++)
-{
-   if(*it=='/')
-   {
-     printf("Found: %s\n", curName.c_str());
-     Gtk::TreeNodeChildren childs=iter->children();
-     for(Gtk::TreeIter cIt=childs.begin(); cIt!=childs.end(); cIt++)
-     {
-        if(cIt->get_value(mColumns.stab)==curName)
-        {
-           break;
-        }
-     }
+   Gtk::TreeIter iter = mSizeDistribution->get_iter("0");
+   Glib::ustring curName = "";
+   printf("Inserting: %s\n", file.c_str());
+   /*for(Glib::ustring::iterator it=file.begin();it!=file.end();it++)
+    {
+    if(*it=='/')
+    {
+    printf("Found: %s\n", curName.c_str());
+    Gtk::TreeNodeChildren childs=iter->children();
+    for(Gtk::TreeIter cIt=childs.begin(); cIt!=childs.end(); cIt++)
+    {
+    if(cIt->get_value(mColumns.stab)==curName)
+    {
+    break;
+    }
+    }
 
-      Glib::ustring pos= iter->get_value(mColumns.stab);
+    Glib::ustring pos= iter->get_value(mColumns.stab);
 
-      curName="";
-   }else{
-      curName.append(1,*it);
-   }
-}*/
-
-
+    curName="";
+    }else{
+    curName.append(1,*it);
+    }
+    }*/
 
 }
 
@@ -129,7 +128,7 @@ void FileParser::thread_function()
    Glib::Rand rand;
 
    mSymbols = Gtk::ListStore::create(mColumns);
-   mSizeDistribution=Gtk::TreeStore::create(mColumns);
+   mSizeDistribution = Gtk::TreeStore::create(mColumns);
 
    bfd *theBfd = bfd_openr(mFile.c_str(), 0);
 
@@ -152,7 +151,6 @@ void FileParser::thread_function()
    if (storage_needed == 0)
       return;
 
-
    symbol_table = (asymbol **) malloc(storage_needed);
 
    number_of_symbols = bfd_canonicalize_symtab (theBfd, symbol_table);
@@ -161,10 +159,10 @@ void FileParser::thread_function()
       return;
 
    cplus_demangle_set_style(auto_demangling);
-   Gtk::TreeModel::Row row =*(   mSizeDistribution->append());
-   row[mColumns.stab]="ALL";
-   row[mColumns.size]=0;
-
+   Gtk::TreeModel::Row row = *(mSizeDistribution->append());
+   row[mColumns.stab] = "ALL";
+   row[mColumns.size] = 0;
+   int oldProgress=progress_;
    for (i = 0; i < number_of_symbols; i++)
    {
       unsigned int size = ((elf_symbol_type *) symbol_table[i])->internal_elf_sym.st_size;
@@ -184,7 +182,6 @@ void FileParser::thread_function()
 
          int flags = DMGL_PARAMS | DMGL_ANSI | DMGL_VERBOSE;
 
-
          const char* name = bfd_demangle(theBfd, skip_first + mangled_name, 11);
 
          if (name == 0)
@@ -201,16 +198,23 @@ void FileParser::thread_function()
 
          }
 
+         Glib::ustring file = "";
+         show_globals(symbol_table[i], theBfd, symbol_table, file);
+         row[mColumns.stab] = file;
 
-         Glib::ustring file="";
-         show_globals(symbol_table[i],theBfd,symbol_table, file);
-         row[mColumns.stab]=file;
+
+         progress_ = ((i * 100 / number_of_symbols));
+         if(progress_!=oldProgress)
+         {
+            oldProgress=progress_;
+            signal_increment_();
+         }
       }
 
-      signal_progress_((i * 100 / number_of_symbols));
-   }
 
-   signal_finished_();
+   }
+   progress_ = 100;
+   signal_increment_();
 
 }
 

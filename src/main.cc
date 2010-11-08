@@ -180,8 +180,19 @@ extern "C"
    gboolean on_chart_button_release (BaobabChart *chart, GdkEventButton *event,
                                           gpointer data);
 };
+
+GtkTreeStore *model;
+GtkWidget * rings_chart;
 void onChart_item_activated (BaobabChart *chart, GtkTreeIter *iter)
 {
+   GtkTreePath *path;
+
+       path = gtk_tree_model_get_path (GTK_TREE_MODEL (model), iter);
+
+       baobab_chart_set_root(rings_chart,path);
+
+
+       gtk_tree_path_free (path);
 
 
 }
@@ -269,7 +280,7 @@ main (int argc, char *argv[])
    Gtk::Alignment *ringAlignment=0;
    builder->get_widget("ringchartAlignment",ringAlignment);
 
-   GtkTreeStore *model=gtk_tree_store_new (NUM_TREE_COLUMNS,
+   model=gtk_tree_store_new (NUM_TREE_COLUMNS,
                                           G_TYPE_STRING,  /* COL_DIR_NAME */
                                           G_TYPE_STRING,  /* COL_H_PARSENAME */
                                           G_TYPE_DOUBLE,  /* COL_H_PERC */
@@ -278,7 +289,7 @@ main (int argc, char *argv[])
                                           G_TYPE_INT     /* COL_H_ELEMENTS */
 
                                           );
-   GtkTreeIter    toplevel, child;
+   GtkTreeIter    toplevel, child,childnext,childnext2;
 
    gtk_tree_store_append(model, &toplevel, NULL);
    gtk_tree_store_set(model, &toplevel,
@@ -286,7 +297,7 @@ main (int argc, char *argv[])
                         COL_H_PARSENAME,"Test",
                         COL_H_PERC,(gdouble) 100,
                         COL_DIR_SIZE,"200",
-                        COL_H_ELEMENTS,-1,-1
+                        COL_H_ELEMENTS,1,-1
 
                       );
 
@@ -296,12 +307,62 @@ main (int argc, char *argv[])
                           COL_H_PARSENAME,"Usage",
                           COL_H_PERC,(gdouble) 45,
                           COL_DIR_SIZE,"200",
-                          COL_H_ELEMENTS,-1,
+                          COL_H_ELEMENTS,1,
   -1
                         );
 
+   gtk_tree_store_append (model, &child, &toplevel);
+   gtk_tree_store_set(model, &child,
+                        COL_DIR_NAME,"Usage2",
+                          COL_H_PARSENAME,"Usage2",
+                          COL_H_PERC,(gdouble) 10,
+                          COL_DIR_SIZE,"400",
+                          COL_H_ELEMENTS,1,
+  -1
+                        );
 
-   GtkWidget * rings_chart = (GtkWidget *) baobab_ringschart_new ();
+   gtk_tree_store_append (model, &child, &toplevel);
+   gtk_tree_store_set(model, &child,
+                        COL_DIR_NAME,"Usage3",
+                          COL_H_PARSENAME,"Usage3",
+                          COL_H_PERC,(gdouble) 10,
+                          COL_DIR_SIZE,"400",
+                          COL_H_ELEMENTS,1,
+  -1
+                        );
+
+   gtk_tree_store_append (model, &childnext, &child);
+      gtk_tree_store_set(model, &childnext,
+                           COL_DIR_NAME,"Usage4",
+                             COL_H_PARSENAME,"Usage4Paerse",
+                             COL_H_PERC,(gdouble) 40,
+                             COL_DIR_SIZE,"400",
+                             COL_H_ELEMENTS,1,
+     -1
+                           );
+
+      gtk_tree_store_append (model, &childnext, &child);
+          gtk_tree_store_set(model, &childnext,
+                               COL_DIR_NAME,"Usage4",
+                                 COL_H_PARSENAME,"Usage4Paerse",
+                                 COL_H_PERC,(gdouble) 40,
+                                 COL_DIR_SIZE,"400",
+                                 COL_H_ELEMENTS,1,
+         -1
+                               );
+
+      gtk_tree_store_append (model, &childnext2, &childnext);
+         gtk_tree_store_set(model, &childnext2,
+                              COL_DIR_NAME,"Usage5",
+                                COL_H_PARSENAME,"Usage5",
+                                COL_H_PERC,(gdouble) 90,
+                                COL_DIR_SIZE,"400",
+                                COL_H_ELEMENTS,1,
+        -1
+                              );
+
+
+ rings_chart = (GtkWidget *) baobab_ringschart_new ();
    baobab_chart_set_model_with_columns (rings_chart,
                     GTK_TREE_MODEL (model),
                     COL_DIR_NAME,
@@ -313,7 +374,8 @@ main (int argc, char *argv[])
 
 
 
-   baobab_chart_set_max_depth (rings_chart, 1);
+   baobab_chart_set_max_depth (rings_chart, 9);
+
    g_signal_connect (rings_chart, "item_activated",
                G_CALLBACK (onChart_item_activated), NULL);
    g_signal_connect (rings_chart, "button-release-event",
