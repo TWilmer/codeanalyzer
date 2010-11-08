@@ -79,21 +79,57 @@ void show_globals(asymbol *sym, bfd *abfd, asymbol **syms,Glib::ustring &file) {
             &filename, &funcname, &line)) {
          if(filename!=0)
          {
-            file=filename;
+            file="ALL/";
+            file.append(filename);
+            return;
       //      printf("  in func %s- %s: %d\n", funcname, filename, line);
          }
       }
-   }else{
-
    }
+   file="ALL";
+   return;
+
 }
 
+
+void FileParser::addEntry(const Glib::ustring &file, const Glib::ustring &symbol, int size )
+{
+
+Gtk::TreeIter iter=mSizeDistribution->get_iter("0");
+Glib::ustring curName="";
+printf("Inserting: %s\n", file.c_str());
+/*for(Glib::ustring::iterator it=file.begin();it!=file.end();it++)
+{
+   if(*it=='/')
+   {
+     printf("Found: %s\n", curName.c_str());
+     Gtk::TreeNodeChildren childs=iter->children();
+     for(Gtk::TreeIter cIt=childs.begin(); cIt!=childs.end(); cIt++)
+     {
+        if(cIt->get_value(mColumns.stab)==curName)
+        {
+           break;
+        }
+     }
+
+      Glib::ustring pos= iter->get_value(mColumns.stab);
+
+      curName="";
+   }else{
+      curName.append(1,*it);
+   }
+}*/
+
+
+
+}
 
 void FileParser::thread_function()
 {
    Glib::Rand rand;
 
    mSymbols = Gtk::ListStore::create(mColumns);
+   mSizeDistribution=Gtk::TreeStore::create(mColumns);
 
    bfd *theBfd = bfd_openr(mFile.c_str(), 0);
 
@@ -125,6 +161,9 @@ void FileParser::thread_function()
       return;
 
    cplus_demangle_set_style(auto_demangling);
+   Gtk::TreeModel::Row row =*(   mSizeDistribution->append());
+   row[mColumns.stab]="ALL";
+   row[mColumns.size]=0;
 
    for (i = 0; i < number_of_symbols; i++)
    {

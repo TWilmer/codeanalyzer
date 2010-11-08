@@ -36,6 +36,9 @@
 #include <time.h>
 #include <unistd.h>
 
+#include "baobab/baobab-chart.h"
+#include "baobab/baobab-ringschart.h"
+
 #include "FileParser.hpp"
 
 namespace icon
@@ -171,6 +174,35 @@ void onProgress(int a)
    printf("Data %f",f);
  theProgressBar->set_fraction(f);
 }
+extern "C"
+{
+   void onChart_item_activated (BaobabChart *chart, GtkTreeIter *iter);
+   gboolean on_chart_button_release (BaobabChart *chart, GdkEventButton *event,
+                                          gpointer data);
+};
+void onChart_item_activated (BaobabChart *chart, GtkTreeIter *iter)
+{
+
+
+}
+gboolean onChart_button_release (BaobabChart *chart, GdkEventButton *event,
+                                       gpointer data)
+{
+
+}
+
+
+
+/* tree model columns (_H_ are hidden) */
+enum
+{
+   COL_DIR_NAME,
+   COL_H_PARSENAME,
+   COL_H_PERC,
+   COL_DIR_SIZE,
+   COL_H_ELEMENTS,
+   NUM_TREE_COLUMNS
+};
 
 int
 main (int argc, char *argv[])
@@ -213,6 +245,7 @@ main (int argc, char *argv[])
 	      about->signal_response().connect(sigc::ptr_fun(doAboutClose));
 
 
+
 	      builder->get_widget("progressbar",theProgressBar);
 	      builder->get_widget("symbolsView",theSymbolsView);
 
@@ -231,6 +264,65 @@ main (int argc, char *argv[])
    }
 
    Gtk::Window::set_default_icon_list(iconList);
+
+
+   Gtk::Alignment *ringAlignment=0;
+   builder->get_widget("ringchartAlignment",ringAlignment);
+
+   GtkTreeStore *model=gtk_tree_store_new (NUM_TREE_COLUMNS,
+                                          G_TYPE_STRING,  /* COL_DIR_NAME */
+                                          G_TYPE_STRING,  /* COL_H_PARSENAME */
+                                          G_TYPE_DOUBLE,  /* COL_H_PERC */
+                                          G_TYPE_STRING,  /* COL_DIR_SIZE */
+
+                                          G_TYPE_INT     /* COL_H_ELEMENTS */
+
+                                          );
+   GtkTreeIter    toplevel, child;
+
+   gtk_tree_store_append(model, &toplevel, NULL);
+   gtk_tree_store_set(model, &toplevel,
+                      COL_DIR_NAME,"Test",
+                        COL_H_PARSENAME,"Test",
+                        COL_H_PERC,(gdouble) 100,
+                        COL_DIR_SIZE,"200",
+                        COL_H_ELEMENTS,-1,-1
+
+                      );
+
+   gtk_tree_store_append (model, &child, &toplevel);
+   gtk_tree_store_set(model, &child,
+                        COL_DIR_NAME,"Usage",
+                          COL_H_PARSENAME,"Usage",
+                          COL_H_PERC,(gdouble) 45,
+                          COL_DIR_SIZE,"200",
+                          COL_H_ELEMENTS,-1,
+  -1
+                        );
+
+
+   GtkWidget * rings_chart = (GtkWidget *) baobab_ringschart_new ();
+   baobab_chart_set_model_with_columns (rings_chart,
+                    GTK_TREE_MODEL (model),
+                    COL_DIR_NAME,
+                    COL_DIR_SIZE,
+                    COL_H_PARSENAME,
+                    COL_H_PERC,
+                    COL_H_ELEMENTS,
+                    NULL);
+
+
+
+   baobab_chart_set_max_depth (rings_chart, 1);
+   g_signal_connect (rings_chart, "item_activated",
+               G_CALLBACK (onChart_item_activated), NULL);
+   g_signal_connect (rings_chart, "button-release-event",
+               G_CALLBACK (onChart_button_release), NULL);
+
+   gtk_widget_show (rings_chart);
+   gtk_container_add(GTK_CONTAINER(ringAlignment->gobj()), rings_chart);
+   gtk_widget_show_all(rings_chart);
+
 
    theParser=new FileParser(1);
 

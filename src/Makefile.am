@@ -3,6 +3,7 @@
 ## Created by Anjuta
 
 
+
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
@@ -11,13 +12,16 @@ AM_CPPFLAGS = \
 
 AM_CFLAGS =\
 	 -Wall\
+	 -Werror \ 
 	 -g
 
 bin_PROGRAMS = codeanalyzer
 
 codeanalyzer_SOURCES =  icon.h \
-	FileParser.cpp \
-	main.cc
+	FileParser.cc \
+	main.cc \
+	baobab/baobab-chart.c \
+	baobab/baobab-ringschart.c 
 
 codeanalyzer_LDFLAGS = 
 
@@ -52,3 +56,4 @@ EXTRA_DIST = $(ui_DATA)
 uninstall-local:
 	-rm -r $(uidir)
 	-rm -r $(datadir)/codeanalyzer
+

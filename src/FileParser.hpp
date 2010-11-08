@@ -32,6 +32,8 @@ public:
   sigc::signal<void>& signal_finished();
   sigc::signal<void,int>& signal_progress();
   Glib::RefPtr<Gtk::ListStore> getSymbols(){return mSymbols;}
+
+  void addEntry(const Glib::ustring &file, const Glib::ustring &symbol, int size );
 private:
   enum { ITERATIONS = 100 };
 
@@ -48,6 +50,8 @@ private:
   void thread_function();
   Glib::RefPtr<Gtk::ListStore> mSymbols;
   std::string mFile;
+
+  Glib::RefPtr<Gtk::TreeStore> mSizeDistribution;
 };
 
 
