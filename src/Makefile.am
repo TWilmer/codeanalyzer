@@ -12,7 +12,7 @@ AM_CPPFLAGS = \
 
 AM_CFLAGS =\
 	 -Wall\
-	 -Werror \ 
+	 -Werror\
 	 -g
 
 bin_PROGRAMS = codeanalyzer
@@ -23,7 +23,7 @@ codeanalyzer_SOURCES =  icon.h \
 	baobab/baobab-chart.c \
 	baobab/baobab-ringschart.c 
 
-codeanalyzer_LDFLAGS = 
+codeanalyzer_LDFLAGS =   -lbfd -liberty
 
 codeanalyzer_LDADD = $(CODEANALYZER_LIBS) codeanalyzer.ui.o
 

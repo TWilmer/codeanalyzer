@@ -1,6 +1,9 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl Created by Anjuta application wizard.
 
+m4_include([m4/bfd.m4])
+
+
 AC_CONFIG_MACRO_DIR([m4])
 
 AC_INIT(codeanalyzer, 0.1)
@@ -22,8 +25,8 @@ AC_CHECK_DECLS(basename)
 
 AM_PROG_LIBTOOL
 
+GNUPG_CHECK_LIBBFD
 
-AC_CHECK_LIB([bfd], [bfd_init], , [ac_found_bfd=no])
 
 
 PKG_CHECK_MODULES(CODEANALYZER, [gtkmm-2.4 >= 2.16    ])
