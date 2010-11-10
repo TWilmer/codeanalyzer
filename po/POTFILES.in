@@ -1,0 +1,6 @@
+# List of source files containing translatable strings.
+
+src/main.cc
+src/baobab/baobab-chart.c
+src/codeanalyzer.glade
+

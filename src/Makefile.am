@@ -7,6 +7,7 @@
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
+	-DPROGRAMNAME_LOCALEDIR=\"${PROGRAMNAME_LOCALEDIR}\" \
 	-DPACKAGE_DATA_DIR=\""$(datadir)"\" \
 	$(CODEANALYZER_CFLAGS)
 
@@ -25,7 +26,7 @@ codeanalyzer_SOURCES =  icon.h \
 
 codeanalyzer_LDFLAGS =   -lbfd -liberty
 
-codeanalyzer_LDADD = $(CODEANALYZER_LIBS) codeanalyzer.ui.o
+codeanalyzer_LDADD = $(CODEANALYZER_LIBS) codeanalyzer.glade.o
 
 
 icon.h: icon32.png icon64.png icon16.png
@@ -45,12 +46,11 @@ endif
 
 
 # embedd glade file into Program
-CLEANFILES= codeanalyzer.ui.o icon.h
-codeanalyzer.ui.o : codeanalyzer.ui
-	$(OBJCOPY)  -I binary -B $(OBJCOPYARCH) -O $(OBJCOPYTARGET) codeanalyzer.ui codeanalyzer.ui.o
+CLEANFILES= codeanalyzer.glade.o icon.h
+codeanalyzer.glade.o : codeanalyzer.glade
+	$(OBJCOPY)  -I binary -B $(OBJCOPYARCH) -O $(OBJCOPYTARGET) codeanalyzer.glade codeanalyzer.glade.o
 
 
-EXTRA_DIST = $(ui_DATA)
 
 # Remove ui directory on uninstall
 uninstall-local:

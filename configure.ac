@@ -19,9 +19,25 @@ AM_PROG_CC_STDC
 AC_HEADER_STDC
 
 
+IT_PROG_INTLTOOL([0.35.0])
+
+GETTEXT_PACKAGE=codeanalyzer
+AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], ["$GETTEXT_PACKAGE"],
+                   [The domain to use with gettext])
+AM_GLIB_GNU_GETTEXT
+
+PROGRAMNAME_LOCALEDIR=[${datadir}/locale]
+AC_SUBST(codeanalyzer_LOCALEDIR)
+
+ALL_LINGUAS="de en"
+AM_GLIB_GNU_GETTEXT
+
 
 
 AC_CHECK_DECLS(basename)
+
+
 
 AM_PROG_LIBTOOL
 
@@ -103,5 +119,6 @@ LT_PROG_RC
 AC_OUTPUT([
 Makefile
 src/Makefile
+po/Makefile.in
 
 ])

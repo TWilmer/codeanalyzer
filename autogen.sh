@@ -157,3 +157,32 @@ if test x$NOCONFIGURE = x; then
 else
   echo Skipping configure process.
 fi
+
+if grep "^AM_[A-Z0-9_]\{1,\}_GETTEXT" "$CONFIGURE" >/dev/null; then
+ if grep "sed.*POTFILES" "$CONFIGURE" >/dev/null; then
+  GETTEXTIZE=""
+ else
+  if grep "^AM_GLIB_GNU_GETTEXT" "$CONFIGURE" >/dev/null; then
+    GETTEXTIZE="glib-gettextize"
+  else
+    GETTEXTIZE="gettextize"
+  fi
+
+  $GETTEXTIZE --version < /dev/null > /dev/null 2>&1
+  if test $? -ne 0; then
+    echo
+    echo "**Error**: You must have \`$GETTEXTIZE' installed" \
+         "to compile $PKG_NAME."
+    DIE=1
+  fi
+ fi
+fi
+(grep "^AC_PROG_INTLTOOL" "$CONFIGURE" >/dev/null) && {
+(intltoolize --version) < /dev/null > /dev/null 2>&1 || {
+ echo
+ echo "**Error**: You must have \`intltoolize' installed" \
+      "to compile $PKG_NAME."
+ DIE=1
+ }
+}
+

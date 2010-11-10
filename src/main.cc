@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include "slice.h"
 #include <gtkmm.h>
 #include <iostream>
 
@@ -56,11 +57,11 @@ using Glib::ustring;
 extern "C"
 {
 #ifdef GLIBMM_WIN32
-#define GLADE_START binary_codeanalyzer_ui_start
-#define GLADE_END binary_codeanalyzer_ui_end
+#define GLADE_START binary_codeanalyzer_glade_start
+#define GLADE_END binary_codeanalyzer_glade_end
 #else
-#define GLADE_START _binary_codeanalyzer_ui_start
-#define GLADE_END _binary_codeanalyzer_ui_end
+#define GLADE_START _binary_codeanalyzer_glade_start
+#define GLADE_END _binary_codeanalyzer_glade_end
 #endif
    extern char GLADE_START;
    extern char GLADE_END;
@@ -87,6 +88,11 @@ Gtk::Window* main_win = 0;
 Gtk::TreeView* theSymbolsView=0;
 void doOpen()
 {
+
+bindtextdomain ("codeanalyzer", PACKAGE_LOCALE_DIR);
+bind_textdomain_codeset ("codeanalyzer", "UTF-8");
+textdomain ("codeanalyzer");
+
    Gtk::FileChooserDialog dialog("Please choose a file",
             Gtk::FILE_CHOOSER_ACTION_OPEN);
     dialog.set_transient_for(*main_win);
@@ -218,6 +224,10 @@ enum
 int
 main (int argc, char *argv[])
 {
+bindtextdomain (GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
+bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+textdomain (GETTEXT_PACKAGE);
+
    if(!Glib::thread_supported()) Glib::thread_init();
 
 	Gtk::Main kit(argc, argv);

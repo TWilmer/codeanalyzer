@@ -1,0 +1,80 @@
+#: ../src/baobab/baobab-chart.c:206
+msgid "Maximum depth"
+msgstr "Maximum depth"
+
+#: ../src/baobab/baobab-chart.c:207
+msgid "The maximum depth drawn in the chart from the root"
+msgstr "The maximum depth drawn in the chart from the root"
+
+#: ../src/baobab/baobab-chart.c:216
+msgid "Chart model"
+msgstr "Chart model"
+
+#: ../src/baobab/baobab-chart.c:217
+msgid "Set the model of the chart"
+msgstr "Set the model of the chart"
+
+#: ../src/baobab/baobab-chart.c:224
+msgid "Chart root node"
+msgstr "Chart root node"
+
+#: ../src/baobab/baobab-chart.c:225
+msgid "Set the root node from the model"
+msgstr "Set the root node from the model"
+
+#: ../src/baobab/baobab-chart.c:1695
+msgid "Cannot create pixbuf image!"
+msgstr "Cannot create pixbuf image!"
+
+#. Popup the File chooser dialog
+#: ../src/baobab/baobab-chart.c:1705
+msgid "Save Snapshot"
+msgstr "Save Snapshot"
+
+#: ../src/baobab/baobab-chart.c:1734
+msgid "_Image type:"
+msgstr "_Image type:"
+
+#: ../src/codeanalyzer.glade.h:1
+msgid "<b>frame1</b>"
+msgstr "Step:"
+
+#: ../src/codeanalyzer.glade.h:2
+msgid "All Symbols"
+msgstr "All Symbols"
+
+#: ../src/codeanalyzer.glade.h:3
+msgid "Code Analyzer"
+msgstr "Code Analyzer"
+
+#: ../src/codeanalyzer.glade.h:4
+msgid "Distribution"
+msgstr "Distribution"
+
+#: ../src/codeanalyzer.glade.h:5
+msgid "Ringchart:"
+msgstr "Ringchart:"
+
+#: ../src/codeanalyzer.glade.h:6
+msgid "Search"
+msgstr "Search"
+
+#: ../src/codeanalyzer.glade.h:7
+msgid "Symbol:"
+msgstr "Symbol:"
+
+#: ../src/codeanalyzer.glade.h:8
+msgid "_Datei"
+msgstr "_File"
+
+#: ../src/codeanalyzer.glade.h:9
+msgid "_Hilfe"
+msgstr "_Help"
+
+#: ../src/codeanalyzer.glade.h:10
+msgid "checkbutton"
+msgstr "checkbutton"
+
+#: ../src/codeanalyzer.glade.h:11
+msgid "page 3"
+msgstr "Statistic"
