@@ -11,7 +11,7 @@
 #include <bfd.h>
 #include "elf-bfd.h"
 #define HAVE_DECL_BASENAME 1
-#include "demangle.h"
+//#include "demangle.h"
 
 FileParser::FileParser(int id) :
    thread_(0), id_(id), progress_(0), mFile("")
@@ -158,7 +158,6 @@ void FileParser::thread_function()
    if (number_of_symbols < 0)
       return;
 
-   cplus_demangle_set_style(auto_demangling);
    Gtk::TreeModel::Row row = *(mSizeDistribution->append());
    row[mColumns.stab] = "ALL";
    row[mColumns.size] = 0;
@@ -180,7 +179,6 @@ void FileParser::thread_function()
          /*if ( mangled_name[skip_first] == '_')
           ++skip_first;*/
 
-         int flags = DMGL_PARAMS | DMGL_ANSI | DMGL_VERBOSE;
 
          const char* name = bfd_demangle(theBfd, skip_first + mangled_name, 11);
 
