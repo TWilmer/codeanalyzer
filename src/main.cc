@@ -89,11 +89,9 @@ Gtk::TreeView* theSymbolsView=0;
 void doOpen()
 {
 
-bindtextdomain ("codeanalyzer", PACKAGE_LOCALE_DIR);
-bind_textdomain_codeset ("codeanalyzer", "UTF-8");
-textdomain ("codeanalyzer");
 
-   Gtk::FileChooserDialog dialog("Please choose a file",
+
+   Gtk::FileChooserDialog dialog(_("Please choose a file"),
             Gtk::FILE_CHOOSER_ACTION_OPEN);
     dialog.set_transient_for(*main_win);
 
@@ -102,21 +100,23 @@ textdomain ("codeanalyzer");
     dialog.add_button(Gtk::Stock::OPEN, Gtk::RESPONSE_OK);
 
     //Add filters, so that only certain file types can be selected:
+    Gtk::FileFilter filter_any;
+    filter_any.set_name(_("Any files"));
+    filter_any.add_pattern("*");
+    dialog.add_filter(filter_any);
+
 
     Gtk::FileFilter filter_text;
-    filter_text.set_name("Application File");
+    filter_text.set_name(_("Application File"));
     filter_text.add_mime_type("application/x-executable");
     dialog.add_filter(filter_text);
 
-    filter_text.set_name("Object File");
-    filter_text.add_mime_type("application/x-object");
-    dialog.add_filter(filter_text);
+    Gtk::FileFilter filter_obj;
+    filter_obj.set_name(_("Object File"));
+    filter_obj.add_mime_type("application/x-object");
+    dialog.add_filter(filter_obj);
 
 
-    Gtk::FileFilter filter_any;
-    filter_any.set_name("Any files");
-    filter_any.add_pattern("*");
-    dialog.add_filter(filter_any);
 
     //Show the dialog and wait for a user response:
     int result = dialog.run();
@@ -157,11 +157,25 @@ void doEnd()
 Gtk::AboutDialog *about;
 void doHelp()
 {
+Gtk::AboutDialog dialog;
+dialog.set_transient_for(*main_win);
+dialog.set_copyright(about->get_copyright());
+dialog.set_license(about->get_license());
+dialog.set_authors(about->get_authors());
+dialog.set_title(about->get_title());
+dialog.set_program_name(about->get_program_name());
+dialog.run();
+
+/*
    about->show();
+   about->raise();
+   about->present();*/
+
 }
 void doAboutClose(int a)
 {
    about->hide();
+
 }
 
 void onFinished()
@@ -224,11 +238,24 @@ enum
 int
 main (int argc, char *argv[])
 {
-bindtextdomain (GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
+   g_type_init();
+   if(!Glib::thread_supported()) Glib::thread_init();
+
+   Glib::RefPtr< Gio::File > localeDeRel=    Gio::File::create_for_path("../share/locale/de/LC_MESSAGES/codeanalyzer.mo");
+   if(localeDeRel->query_exists ())
+   {
+      printf("Using relative path\n");
+      bindtextdomain (GETTEXT_PACKAGE, "../share/locale");
+   }else{
+      bindtextdomain (GETTEXT_PACKAGE, PACKAGE_LOCALE_DIR);
+      printf("Using absolute path %s\n",PACKAGE_LOCALE_DIR);
+   }
+
+
 bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 textdomain (GETTEXT_PACKAGE);
 
-   if(!Glib::thread_supported()) Glib::thread_init();
+
 
 	Gtk::Main kit(argc, argv);
 
@@ -261,9 +288,9 @@ textdomain (GETTEXT_PACKAGE);
 	      builder->get_widget("menu_help",help);
 	      help->signal_activate().connect( sigc::ptr_fun(doHelp));
 
-
 	      builder->get_widget("aboutdialog",about);
 	      about->signal_response().connect(sigc::ptr_fun(doAboutClose));
+	      about->set_transient_for (*main_win);
 
 
 
@@ -403,6 +430,8 @@ textdomain (GETTEXT_PACKAGE);
 
    theParser->signal_progress().connect(
             sigc::ptr_fun(onProgress));
+
+
 
 	if (main_win)
 	{

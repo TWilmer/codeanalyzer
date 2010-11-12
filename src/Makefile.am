@@ -28,6 +28,10 @@ codeanalyzer_LDFLAGS =   -lbfd -liberty
 
 codeanalyzer_LDADD = $(CODEANALYZER_LIBS) codeanalyzer.glade.o
 
+main.cc : icon.h
+
+main.cc : codeanalyzer.glade.o
+
 
 icon.h: icon32.png icon64.png icon16.png
 	gdk-pixbuf-csource  --build-list  icon16 icon16.png  icon32 icon32.png  icon64 icon64.png > icon.h

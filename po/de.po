@@ -1,3 +1,19 @@
+#: ../src/main.cc:96
+msgid "Please choose a file"
+msgstr "Bitte eine Datei auswählen"
+
+#: ../src/main.cc:106
+msgid "Any files"
+msgstr "Alle Dateien"
+
+#: ../src/main.cc:112
+msgid "Application File"
+msgstr "Applikations Datei"
+
+#: ../src/main.cc:117
+msgid "Object File"
+msgstr "Objekt Datei"
+
 #: ../src/baobab/baobab-chart.c:206
 msgid "Maximum depth"
 msgstr "Maximale Tiefe"

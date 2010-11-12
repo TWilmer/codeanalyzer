@@ -254,9 +254,8 @@
     <property name="title" translatable="yes">Code Analyzer</property>
     <property name="window_position">center-on-parent</property>
     <property name="destroy_with_parent">True</property>
-    <property name="type_hint">normal</property>
-    <property name="skip_taskbar_hint">True</property>
-    <property name="skip_pager_hint">True</property>
+    <property name="type_hint">dialog</property>
+    <property name="urgency_hint">True</property>
     <property name="transient_for">main_window</property>
     <property name="opacity">0</property>
     <property name="has_separator">False</property>
@@ -752,7 +751,13 @@ rights granted under this License, and you may not initiate litigation
         <property name="visible">True</property>
         <property name="spacing">2</property>
         <child>
-          <placeholder/>
+          <object class="GtkLabel" id="label7">
+            <property name="visible">True</property>
+            <property name="label" translatable="yes">label</property>
+          </object>
+          <packing>
+            <property name="position">2</property>
+          </packing>
         </child>
         <child internal-child="action_area">
           <object class="GtkHButtonBox" id="about_close">
