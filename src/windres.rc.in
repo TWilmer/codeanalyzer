@@ -16,14 +16,15 @@ VS_VERSION_INFO VERSIONINFO
 	VALUE "CompanyName", "Thorsten Wilmer"
 	VALUE "FileDescription", "Pin Master"
 	VALUE "FileVersion", "@PACKAGE_VERSION@.0"
-	VALUE "LegalCopyright", "Copyright � 2009 Thorsten Wilmer"
-	VALUE "ProductName", "Pin Master"
+	VALUE "LegalCopyright", "Copyright � 2010 Thorsten Wilmer"
+	VALUE "ProductName", "Code Analyzer"
 	VALUE "ProductVersion", "@PACKAGE_VERSION@"
       END
     END
     BLOCK "VarFileInfo"
     BEGIN
       VALUE "Translation", 0x409, 1200
+      VALUE "Translation", 0x0407, 1200
     END
   END
 

@@ -1,7 +1,7 @@
 #!/bin/bash -x
 export PKG_CONFIG_PATH=/home/thorsten/gtk-target/lib/pkgconfig/
-#export CFLAGS=-Wl,-subsystem,windows 
-#export CXXFLAGS=-Wl,-subsystem,windows 
+export CFLAGS=-Wl,-subsystem,windows 
+export CXXFLAGS=-Wl,-subsystem,windows 
 export CPP_INCLUDE_PATH=/media/backup/gtkmm/jhbuild.mingw.gtk-2.16/target.rls/include
 export CXX_INCLUDE_PATH=/media/backup/gtkmm/jhbuild.mingw.gtk-2.16/target.rls/include
 export C_INCLUDE_PATH=/media/backup/gtkmm/jhbuild.mingw.gtk-2.16/target.rls/include
