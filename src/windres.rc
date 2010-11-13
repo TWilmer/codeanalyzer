@@ -14,10 +14,10 @@ VS_VERSION_INFO VERSIONINFO
       BLOCK "040904B0"
       BEGIN
 	VALUE "CompanyName", "Thorsten Wilmer"
-	VALUE "FileDescription", "Pin Master"
+	VALUE "FileDescription", "Code Analyzer"
 	VALUE "FileVersion", "0.1.0"
-	VALUE "LegalCopyright", "Copyright � 2009 Thorsten Wilmer"
-	VALUE "ProductName", "Pin Master"
+	VALUE "LegalCopyright", "Copyright � 2010 Thorsten Wilmer"
+	VALUE "ProductName", "Code Analyzer"
 	VALUE "ProductVersion", "0.1"
       END
     END

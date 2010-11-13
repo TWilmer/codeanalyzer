@@ -119,6 +119,7 @@ LT_PROG_RC
 AC_OUTPUT([
 Makefile
 src/Makefile
+src/windres.rc
 po/Makefile.in
 
 ])

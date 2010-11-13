@@ -241,7 +241,8 @@ main (int argc, char *argv[])
    g_type_init();
    if(!Glib::thread_supported()) Glib::thread_init();
 
-   Glib::RefPtr< Gio::File > localeDeRel=    Gio::File::create_for_path("../share/locale/de/LC_MESSAGES/codeanalyzer.mo");
+   Glib::RefPtr< Gio::File > localeDeRel=    Gio::File::create_for_commandline_arg("../share/locale/de/LC_MESSAGES/codeanalyzer.mo");
+printf("%s", localeDeRel->get_path().c_str());
    if(localeDeRel->query_exists ())
    {
       printf("Using relative path\n");

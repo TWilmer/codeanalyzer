@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
 xmlns:difxapp="http://schemas.microsoft.com/wix/DifxAppExtension">
-  <Product Id="5e76cb08-2ba0-456c-81ad-d63a80a12ea5" UpgradeCode="5e76cb08-2ba0-456c-81ad-d63a80a12ea6" Version="1.0.0.0" Language="1033" Name="Code Analyzer" Manufacturer="Thorsten Wilmer">
+  <Product Id="5e76cb08-2ba0-456c-81ad-d63a80a12ea6" UpgradeCode="5e76cb08-2ba0-456c-81ad-d63a80a12ea7" Version="1.0.0.0" Language="1033" Name="Code Analyzer" Manufacturer="Thorsten Wilmer">
     <Package InstallerVersion="300" Compressed="yes"/>
     <Media Id="1" Cabinet="codeanalyzer.cab" EmbedCab="yes" />
 
@@ -19,7 +19,7 @@ xmlns:difxapp="http://schemas.microsoft.com/wix/DifxAppExtension">
     
 
     <DirectoryRef Id="ApplicationProgramsFolder">
-      <Component Id="ApplicationShortcut" Guid="22860d6f-509f-49d2-8382-ce5901c6ac8b">
+      <Component Id="ApplicationShortcut" Guid="12860d6f-509f-49d2-8382-ce5901c6ac82">
         <Shortcut Id="ApplicationStartMenuShortcut"
                   Name="Code Analyzer"
                   Description="Use the Code Analyzer"
