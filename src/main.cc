@@ -87,6 +87,8 @@ Gtk::Window* main_win = 0;
 
 Gtk::TreeView* theSymbolsView=0;
 Gtk::TreeView* theDebugView=0;
+
+Gtk::Label *theLocation;
 void doOpen()
 {
 
@@ -250,6 +252,21 @@ void onChart_item_activated (BaobabChart *chart, GtkTreeIter *iter)
        theDebugView->expand_to_path(Gtk::TreePath(path));
        theDebugView->scroll_to_row(Gtk::TreePath(path));
 
+
+
+       Glib::ustring location="";
+
+       Glib::RefPtr<Gtk::TreeStore> aModel=theParser->getDistribution();
+       Gtk::TreePath aPath(path);
+       do
+       {
+          location=location.compose("%1/%2",aModel->get_iter(aPath)->get_value(theParser->mColumns.symbol),location);
+       }
+       while(aPath.up());
+
+
+       theLocation->set_text(location);
+
        gtk_tree_path_free (path);
 
 
@@ -336,6 +353,8 @@ textdomain (GETTEXT_PACKAGE);
 	      builder->get_widget("progressbar",theProgressBar);
 	      builder->get_widget("symbolsView",theSymbolsView);
 	      builder->get_widget("debugView",theDebugView);
+
+         builder->get_widget("location",theLocation);
 
 
 

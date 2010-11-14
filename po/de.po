@@ -1,18 +1,44 @@
-#: ../src/main.cc:96
-msgid "Please choose a file"
-msgstr "Bitte eine Datei auswählen"
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-11-14 13:09+0530\n"
+"PO-Revision-Date: 2008-06-07 11:18+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../src/main.cc:106
+#: ../src/main.cc:97
+msgid "Please choose a file"
+msgstr "Bitte eine Datei auswhlen"
+
+#: ../src/main.cc:107
 msgid "Any files"
 msgstr "Alle Dateien"
 
-#: ../src/main.cc:112
+#: ../src/main.cc:113
 msgid "Application File"
 msgstr "Applikations Datei"
 
-#: ../src/main.cc:117
+#: ../src/main.cc:118
 msgid "Object File"
 msgstr "Objekt Datei"
+
+#: ../src/main.cc:193
+msgid "Size"
+msgstr "Größe"
+
+#: ../src/main.cc:194
+msgid "Source"
+msgstr "Quelle"
+
+#: ../src/main.cc:195
+#, fuzzy
+msgid "Symbol"
+msgstr "Symbol:"
 
 #: ../src/baobab/baobab-chart.c:206
 msgid "Maximum depth"
@@ -38,59 +64,63 @@ msgstr "Digramm Wurzel Knoten"
 msgid "Set the root node from the model"
 msgstr "Setzt die Wurzel des Modells"
 
-#: ../src/baobab/baobab-chart.c:1695
+#: ../src/baobab/baobab-chart.c:1702
 msgid "Cannot create pixbuf image!"
 msgstr "Kann pixbuf Bild nicht erzeugen!"
 
 #. Popup the File chooser dialog
-#: ../src/baobab/baobab-chart.c:1705
+#: ../src/baobab/baobab-chart.c:1712
 msgid "Save Snapshot"
 msgstr "Bild speichern"
 
-#: ../src/baobab/baobab-chart.c:1734
+#: ../src/baobab/baobab-chart.c:1741
 msgid "_Image type:"
 msgstr "Bild Typ:"
 
 #: ../src/codeanalyzer.glade.h:1
-msgid "<b>frame1</b>"
-msgstr "Schritt:"
-
-#: ../src/codeanalyzer.glade.h:2
 msgid "All Symbols"
 msgstr "Alle Symbole"
 
-#: ../src/codeanalyzer.glade.h:3
+#: ../src/codeanalyzer.glade.h:2
 msgid "Code Analyzer"
 msgstr "Code Analyzer"
 
-#: ../src/codeanalyzer.glade.h:4
+#: ../src/codeanalyzer.glade.h:3
 msgid "Distribution"
 msgstr "Verteilung"
 
-#: ../src/codeanalyzer.glade.h:5
+#: ../src/codeanalyzer.glade.h:4
 msgid "Ringchart:"
 msgstr "Ring Diagramm:"
 
-#: ../src/codeanalyzer.glade.h:6
+#: ../src/codeanalyzer.glade.h:5
 msgid "Search"
 msgstr "Suchen"
 
-#: ../src/codeanalyzer.glade.h:7
-msgid "Symbol:"
-msgstr "Symbol:"
+#: ../src/codeanalyzer.glade.h:6
+msgid "Treeview"
+msgstr "Baumansicht"
 
-#: ../src/codeanalyzer.glade.h:8
+#: ../src/codeanalyzer.glade.h:7
 msgid "_Datei"
 msgstr "_Datei"
 
-#: ../src/codeanalyzer.glade.h:9
+#: ../src/codeanalyzer.glade.h:8
 msgid "_Hilfe"
 msgstr "_Hilfe"
 
-#: ../src/codeanalyzer.glade.h:10
-msgid "checkbutton"
-msgstr "checkbutton"
+#: ../src/codeanalyzer.glade.h:9
+msgid "label"
+msgstr "####"
 
-#: ../src/codeanalyzer.glade.h:11
-msgid "page 3"
-msgstr "Statistik"
+#~ msgid "Symbol:"
+#~ msgstr "Symbol:"
+
+#~ msgid "<b>frame1</b>"
+#~ msgstr "Schritt:"
+
+#~ msgid "checkbutton"
+#~ msgstr "checkbutton"
+
+#~ msgid "page 3"
+#~ msgstr "Statistik"

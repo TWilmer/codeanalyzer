@@ -1,18 +1,31 @@
-#: ../src/main.cc:96
+#: ../src/main.cc:97
 msgid "Please choose a file"
 msgstr "Please choose a file"
 
-#: ../src/main.cc:106
+#: ../src/main.cc:107
 msgid "Any files"
 msgstr "Any files"
 
-#: ../src/main.cc:112
+#: ../src/main.cc:113
 msgid "Application File"
 msgstr "Application File"
 
-#: ../src/main.cc:117
+#: ../src/main.cc:118
 msgid "Object File"
 msgstr "Onject File"
+
+#: ../src/main.cc:193
+msgid "Size"
+msgstr "Size"
+
+#: ../src/main.cc:194
+msgid "Source"
+msgstr "Source"
+
+#: ../src/main.cc:195
+#, fuzzy
+msgid "Symbol"
+msgstr "Symbol"
 
 #: ../src/baobab/baobab-chart.c:206
 msgid "Maximum depth"
@@ -38,59 +51,63 @@ msgstr "Chart root node"
 msgid "Set the root node from the model"
 msgstr "Set the root node from the model"
 
-#: ../src/baobab/baobab-chart.c:1695
+#: ../src/baobab/baobab-chart.c:1702
 msgid "Cannot create pixbuf image!"
 msgstr "Cannot create pixbuf image!"
 
 #. Popup the File chooser dialog
-#: ../src/baobab/baobab-chart.c:1705
+#: ../src/baobab/baobab-chart.c:1712
 msgid "Save Snapshot"
 msgstr "Save Snapshot"
 
-#: ../src/baobab/baobab-chart.c:1734
+#: ../src/baobab/baobab-chart.c:1741
 msgid "_Image type:"
 msgstr "_Image type:"
 
 #: ../src/codeanalyzer.glade.h:1
-msgid "<b>frame1</b>"
-msgstr "Step:"
-
-#: ../src/codeanalyzer.glade.h:2
 msgid "All Symbols"
 msgstr "All Symbols"
 
-#: ../src/codeanalyzer.glade.h:3
+#: ../src/codeanalyzer.glade.h:2
 msgid "Code Analyzer"
 msgstr "Code Analyzer"
 
-#: ../src/codeanalyzer.glade.h:4
+#: ../src/codeanalyzer.glade.h:3
 msgid "Distribution"
 msgstr "Distribution"
 
-#: ../src/codeanalyzer.glade.h:5
+#: ../src/codeanalyzer.glade.h:4
 msgid "Ringchart:"
 msgstr "Ringchart:"
 
-#: ../src/codeanalyzer.glade.h:6
+#: ../src/codeanalyzer.glade.h:5
 msgid "Search"
 msgstr "Search"
 
-#: ../src/codeanalyzer.glade.h:7
-msgid "Symbol:"
-msgstr "Symbol:"
+#: ../src/codeanalyzer.glade.h:6
+msgid "Treeview"
+msgstr "Treeview"
 
-#: ../src/codeanalyzer.glade.h:8
+#: ../src/codeanalyzer.glade.h:7
 msgid "_Datei"
 msgstr "_File"
 
-#: ../src/codeanalyzer.glade.h:9
+#: ../src/codeanalyzer.glade.h:8
 msgid "_Hilfe"
 msgstr "_Help"
 
-#: ../src/codeanalyzer.glade.h:10
-msgid "checkbutton"
-msgstr "checkbutton"
+#: ../src/codeanalyzer.glade.h:9
+msgid "label"
+msgstr "###"
 
-#: ../src/codeanalyzer.glade.h:11
-msgid "page 3"
-msgstr "Statistic"
+#~ msgid "Symbol:"
+#~ msgstr "Symbol:"
+
+#~ msgid "<b>frame1</b>"
+#~ msgstr "Step:"
+
+#~ msgid "checkbutton"
+#~ msgstr "checkbutton"
+
+#~ msgid "page 3"
+#~ msgstr "Statistic"
