@@ -28,3 +28,5 @@ cp -r /home/thorsten/gtk-target.relase/* windows/SourceDir
 cp -r /home/thorsten/gtk-target/lib/locale windows/SourceDir/lib
 mkdir -p windows/SourceDir/share/locale/
 cp -r /home/thorsten/gtk-target/share/locale/de windows/SourceDir/share/locale/
+mkdir -p windows/SourceDir/share/scr/
+cp  codeanalyzer-0.1.tar.gz  windows/SourceDir/share/scr/

@@ -89,6 +89,14 @@ Gtk::TreeView* theSymbolsView=0;
 Gtk::TreeView* theDebugView=0;
 
 Gtk::Label *theLocation;
+
+Gtk::Entry*theSearchEntry;
+Gtk::ProgressBar *theProgressBar;
+GtkWidget * rings_chart;
+Gtk::Alignment *ringAlignment=0;
+GtkTreeStore *model;
+
+
 void doOpen()
 {
 
@@ -136,6 +144,8 @@ void doOpen()
         std::cout << "File selected: " <<  filename << std::endl;
 
         theParser->launch(filename);
+        theProgressBar->set_fraction(0);
+        theProgressBar->show();
         break;
       }
       case(Gtk::RESPONSE_CANCEL):
@@ -155,6 +165,18 @@ printf("Open\n");
 void doEnd()
 {
    Gtk::Main::quit();
+}
+
+void doSearch()
+{
+   printf("Search %s\n", theSearchEntry->get_text().c_str());
+   Gtk::MessageDialog dialog(_("Pay for this Feature 500 EUR to the Author and it will be implemented. Or do it on your own."));
+dialog.set_title(_("Unimplemented Feature"));
+
+   dialog.set_modal(true);
+   dialog.set_transient_for(*main_win);
+   dialog.run();
+
 }
 
 Gtk::AboutDialog *about;
@@ -180,10 +202,7 @@ void doAboutClose(int a)
    about->hide();
 
 }
-Gtk::ProgressBar *theProgressBar;
-GtkWidget * rings_chart;
-Gtk::Alignment *ringAlignment=0;
-GtkTreeStore *model;
+
 void onFinished()
 {
 
@@ -216,6 +235,7 @@ theDebugView->append_column("Percentage", theParser->mColumns.percentage);
    baobab_chart_freeze_updates(rings_chart);
    baobab_chart_thaw_updates(rings_chart);
    baobab_chart_set_max_depth(rings_chart, theParser->getDepth());
+   theProgressBar->hide();
 
 }
 
@@ -403,6 +423,14 @@ textdomain (GETTEXT_PACKAGE);
    theParser->signal_progress().connect(
             sigc::ptr_fun(onProgress));
 
+   Gtk::Button *search;
+   builder->get_widget("search",search);
+
+   search->signal_clicked().connect(sigc::ptr_fun(doSearch));
+
+   theProgressBar->hide();
+
+builder->get_widget("search_entry",theSearchEntry);
 
 
 	if (main_win)
