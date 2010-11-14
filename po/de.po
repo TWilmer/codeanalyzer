@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-14 13:09+0530\n"
+"POT-Creation-Date: 2010-11-14 14:09+0530\n"
 "PO-Revision-Date: 2008-06-07 11:18+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -11,34 +11,44 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../src/main.cc:97
+#: ../src/main.cc:105
 msgid "Please choose a file"
 msgstr "Bitte eine Datei auswhlen"
 
-#: ../src/main.cc:107
+#: ../src/main.cc:115
 msgid "Any files"
 msgstr "Alle Dateien"
 
-#: ../src/main.cc:113
+#: ../src/main.cc:121
 msgid "Application File"
 msgstr "Applikations Datei"
 
-#: ../src/main.cc:118
+#: ../src/main.cc:126
 msgid "Object File"
 msgstr "Objekt Datei"
 
-#: ../src/main.cc:193
+#: ../src/main.cc:173
+msgid ""
+"Pay for this Feature 500 EUR to the Author and it will be implemented. Or do "
+"it on your own."
+msgstr "Zahlen Sie für diese Funktion 500 EUR an den Autor, dann wird sie implementiert. Oder implementieren Sie sie selbst."
+
+#: ../src/main.cc:174
+msgid "Unimplemented Feature"
+msgstr "Nicht implementierte Funktion:"
+
+#: ../src/main.cc:212
 msgid "Size"
 msgstr "Größe"
 
-#: ../src/main.cc:194
+#: ../src/main.cc:213
 msgid "Source"
 msgstr "Quelle"
 
-#: ../src/main.cc:195
+#: ../src/main.cc:214
 #, fuzzy
 msgid "Symbol"
-msgstr "Symbol:"
+msgstr "Symbol"
 
 #: ../src/baobab/baobab-chart.c:206
 msgid "Maximum depth"
@@ -90,28 +100,27 @@ msgid "Distribution"
 msgstr "Verteilung"
 
 #: ../src/codeanalyzer.glade.h:4
-msgid "Ringchart:"
-msgstr "Ring Diagramm:"
-
-#: ../src/codeanalyzer.glade.h:5
 msgid "Search"
 msgstr "Suchen"
 
-#: ../src/codeanalyzer.glade.h:6
+#: ../src/codeanalyzer.glade.h:5
 msgid "Treeview"
 msgstr "Baumansicht"
 
-#: ../src/codeanalyzer.glade.h:7
+#: ../src/codeanalyzer.glade.h:6
 msgid "_Datei"
 msgstr "_Datei"
 
-#: ../src/codeanalyzer.glade.h:8
+#: ../src/codeanalyzer.glade.h:7
 msgid "_Hilfe"
 msgstr "_Hilfe"
 
-#: ../src/codeanalyzer.glade.h:9
+#: ../src/codeanalyzer.glade.h:8
 msgid "label"
 msgstr "####"
+
+#~ msgid "Ringchart:"
+#~ msgstr "Ring Diagramm:"
 
 #~ msgid "Symbol:"
 #~ msgstr "Symbol:"

@@ -11,6 +11,7 @@ export CFLAGS="-I/media/backup/gtkmm/jhbuild.mingw.gtk-2.16/target.rls/include"
 ./configure  --prefix=/home/thorsten/gtk-target --host=i586-mingw32msvc   --with-libbfd=/home/thorsten/gtk-target
 make clean
 make install
+make dist
 
 FILE+=codeanalyzer.exe
 rm -rf /home/thorsten/gtk-target.relase

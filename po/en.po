@@ -1,28 +1,38 @@
-#: ../src/main.cc:97
+#: ../src/main.cc:105
 msgid "Please choose a file"
 msgstr "Please choose a file"
 
-#: ../src/main.cc:107
+#: ../src/main.cc:115
 msgid "Any files"
 msgstr "Any files"
 
-#: ../src/main.cc:113
+#: ../src/main.cc:121
 msgid "Application File"
 msgstr "Application File"
 
-#: ../src/main.cc:118
+#: ../src/main.cc:126
 msgid "Object File"
 msgstr "Onject File"
 
-#: ../src/main.cc:193
+#: ../src/main.cc:173
+msgid ""
+"Pay for this Feature 500 EUR to the Author and it will be implemented. Or do "
+"it on your own."
+msgstr "Pay for this Feature 500 EUR to the Author and it will be implemented. Or do it on your own."
+
+#: ../src/main.cc:174
+msgid "Unimplemented Feature"
+msgstr ""
+
+#: ../src/main.cc:212
 msgid "Size"
 msgstr "Size"
 
-#: ../src/main.cc:194
+#: ../src/main.cc:213
 msgid "Source"
 msgstr "Source"
 
-#: ../src/main.cc:195
+#: ../src/main.cc:214
 #, fuzzy
 msgid "Symbol"
 msgstr "Symbol"
@@ -77,28 +87,27 @@ msgid "Distribution"
 msgstr "Distribution"
 
 #: ../src/codeanalyzer.glade.h:4
-msgid "Ringchart:"
-msgstr "Ringchart:"
-
-#: ../src/codeanalyzer.glade.h:5
 msgid "Search"
 msgstr "Search"
 
-#: ../src/codeanalyzer.glade.h:6
+#: ../src/codeanalyzer.glade.h:5
 msgid "Treeview"
 msgstr "Treeview"
 
-#: ../src/codeanalyzer.glade.h:7
+#: ../src/codeanalyzer.glade.h:6
 msgid "_Datei"
 msgstr "_File"
 
-#: ../src/codeanalyzer.glade.h:8
+#: ../src/codeanalyzer.glade.h:7
 msgid "_Hilfe"
 msgstr "_Help"
 
-#: ../src/codeanalyzer.glade.h:9
+#: ../src/codeanalyzer.glade.h:8
 msgid "label"
 msgstr "###"
+
+#~ msgid "Ringchart:"
+#~ msgstr "Ringchart:"
 
 #~ msgid "Symbol:"
 #~ msgstr "Symbol:"
