@@ -14,7 +14,7 @@
 //#include "demangle.h"
 
 FileParser::FileParser(int id) :
-   thread_(0), id_(id), progress_(0), mFile("")
+thread_(0), id_(id), progress_(0), mFile("")
 {
    // Connect to the cross-thread signal.
    signal_increment_.connect(sigc::mem_fun(*this, &FileParser::progress_increment));
@@ -62,9 +62,15 @@ sigc::signal<void, int>& FileParser::signal_progress()
 
 void FileParser::progress_increment()
 {
+   if(progress_==102)
+      return;
+   printf("Progress: %d", progress_);
+   if (progress_ == 101)
+   {
 
-   if (progress_ >= ITERATIONS)
       signal_finished_();
+      progress_=102;
+   }
    signal_progress_(progress_);
 }
 
@@ -81,14 +87,16 @@ void show_globals(asymbol *sym, bfd *abfd, asymbol **syms, Glib::ustring &file)
       {
          if (filename != 0)
          {
-            file = "ALL/";
+            file = sym->section->name;
+            file.append("/");
+
             file.append(filename);
             return;
             //      printf("  in func %s- %s: %d\n", funcname, filename, line);
          }
       }
    }
-   file = "ALL";
+   file = "UNKOWN";
    return;
 
 }
@@ -123,6 +131,141 @@ void FileParser::addEntry(const Glib::ustring &file, const Glib::ustring &symbol
 
 }
 
+void FileParser::fillPercentages()
+{
+   typedef Gtk::TreeModel::Children type_children; //minimise code length.
+
+    type_children cur=mSizeDistribution->children();
+    fillPercentages(cur,0);
+
+
+}
+void FileParser::fillPercentages(const Gtk::TreeModel::Children &cur, int d)
+{
+   if(d+1>mDepth)
+      mDepth=d+1;
+   unsigned int size=0;
+   for(Gtk::TreeModel::Children::iterator iter = cur.begin();
+         iter != cur.end(); ++iter)
+   {
+      Gtk::TreeModel::Row row = *iter;
+      fillPercentages(row.children(),d+1);
+      size+=row->get_value(mColumns.size);
+
+
+   }
+
+
+
+   for(Gtk::TreeModel::Children::iterator iter = cur.begin();
+         iter != cur.end(); ++iter)
+   {
+      Gtk::TreeModel::Row row = *iter;
+      unsigned int curSize=row->get_value(mColumns.size);
+
+      double p;
+      if(size==0)
+      {
+         curSize=42;
+         p=1;
+      }
+      else
+         p=(double)100*curSize/size;
+      row->set_value(mColumns.percentage,p);
+      row->set_value(mColumns.sizeShown,Glib::ustring(" SIZE"));
+      row->set_value(mColumns.valid,1);
+
+
+      Glib::ustring *size;
+      size=new Glib::ustring();
+
+   *size=   size->compose("%1 Bytes", curSize);
+
+      Glib::ustring *name;
+      name=new Glib::ustring();
+      *name=row->get_value(mColumns.symbol);
+      row->set_value(mColumns.csizeShown,(gchar*)size->c_str());
+      row->set_value(mColumns.cstab,(gchar*)name->c_str());
+      row->set_value(mColumns.csymbol,(gchar*)name->c_str());
+
+   }
+
+}
+
+void FileParser::addSymbolToTree(Glib::ustring &name, unsigned int size)
+{
+   printf("Adding %s\n", name.c_str());
+
+
+   typedef Gtk::TreeModel::Children type_children; //minimise code length.
+
+   type_children cur=mSizeDistribution->children();
+   cur=cur.begin()->children();
+   bool done=false;
+   size_t start=0;
+   do
+   {
+
+
+      size_t end=name.find("/",start);
+
+      if(end==-1)
+      {
+         done=true;
+         Glib::ustring curName=name.substr(start,end-start);
+
+         printf(" File: %s\n", curName.c_str());
+         Gtk::TreeModel::iterator nextBase;
+         nextBase = mSizeDistribution->insert(cur.end());
+
+
+         nextBase->set_value(mColumns.symbol,curName);
+         nextBase->set_value(mColumns.size,size);
+
+      }else{
+         Glib::ustring curName=name.substr(start,end-start);
+         printf(" Sub %s\n", curName.c_str());
+
+         bool subFound=false;
+         type_children::iterator nextBase;
+         for(type_children::iterator iter = cur.begin();
+               iter != cur.end(); ++iter)
+         {
+            Gtk::TreeModel::Row row = *iter;
+            if(row.get_value(mColumns.symbol)==curName)
+            {
+               nextBase=iter;
+               subFound=true;
+               break;
+            }
+
+         }
+         if(!subFound)
+         {
+            nextBase = mSizeDistribution->insert(cur.end());
+            nextBase->set_value(mColumns.symbol,curName);
+            nextBase->set_value(mColumns.size,0u);
+         }
+         nextBase->set_value(mColumns.size,(unsigned int)size+nextBase->get_value(mColumns.size));
+
+         cur=nextBase->children();
+
+
+         do
+         {
+
+            end++;
+         }while(name[end]=='/');
+         start=end;
+         printf("%d %d",start,name.size());
+      }
+
+   }while(!done);
+
+    cur=mSizeDistribution->children();
+   cur.begin()->set_value(mColumns.size, size+cur.begin()->get_value(mColumns.size));
+}
+
 void FileParser::thread_function()
 {
    Glib::Rand rand;
@@ -133,6 +276,7 @@ void FileParser::thread_function()
    bfd *theBfd = bfd_openr(mFile.c_str(), 0);
 
    bfd_init();
+   mDepth=0;
    long storage_needed;
    asymbol **symbol_table;
    long number_of_symbols;
@@ -162,8 +306,17 @@ void FileParser::thread_function()
    row[mColumns.stab] = "ALL";
    row[mColumns.size] = 0;
    int oldProgress=progress_;
+   mSizeDistribution->clear();
+   mSizeDistribution->append();
+   typedef Gtk::TreeModel::Children type_children; //minimise code length.
+
+   type_children cur=mSizeDistribution->children();
+
+   cur.begin()->set_value(mColumns.symbol,Glib::ustring("Total"));
+
    for (i = 0; i < number_of_symbols; i++)
    {
+
       unsigned int size = ((elf_symbol_type *) symbol_table[i])->internal_elf_sym.st_size;
       if (size > 0)
       {
@@ -182,16 +335,18 @@ void FileParser::thread_function()
 
          const char* name = bfd_demangle(theBfd, skip_first + mangled_name, 11);
 
+         Glib::ustring symbolName;
          if (name == 0)
          {
             Glib::ustring cName(symbol_table[i]->name);
-
-            row[mColumns.symbol] = cName;
+            symbolName=cName;
+            row[mColumns.symbol] = symbolName;
 
          }
          else
          {
-            row[mColumns.symbol] = name;
+            symbolName=name;
+            row[mColumns.symbol] = symbolName;
             free((void*) name);
 
          }
@@ -201,17 +356,25 @@ void FileParser::thread_function()
          row[mColumns.stab] = file;
 
 
+         Glib::ustring tree=file.compose("%1/%2", file,symbolName);
+         addSymbolToTree(tree, size);
+
          progress_ = ((i * 100 / number_of_symbols));
+         printf("%d, %d, %d\n", i, number_of_symbols, progress_);
          if(progress_!=oldProgress)
          {
             oldProgress=progress_;
-            signal_increment_();
+            if(oldProgress<100)
+               signal_increment_();
          }
       }
 
 
    }
-   progress_ = 100;
+
+   fillPercentages();
+
+   progress_ = 101;
    signal_increment_();
 
 }

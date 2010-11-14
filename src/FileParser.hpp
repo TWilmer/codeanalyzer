@@ -15,10 +15,18 @@ public:
       {
       public:
         Gtk::TreeModelColumn<unsigned int> size;
+        Gtk::TreeModelColumn<gdouble> percentage;
         Gtk::TreeModelColumn<Glib::ustring> symbol;
         Gtk::TreeModelColumn<Glib::ustring> stab;
 
-        MyModelColumns() { add(size); add(stab); add(symbol);  }
+        Gtk::TreeModelColumn<Glib::ustring> sizeShown;
+
+        Gtk::TreeModelColumn<gchar*> csymbol;
+        Gtk::TreeModelColumn<gchar*> cstab;
+
+        Gtk::TreeModelColumn<gchar*> csizeShown;
+        Gtk::TreeModelColumn<int > valid;
+        MyModelColumns() { add(size); add(percentage); add(stab); add(symbol);  add(sizeShown); add(valid); add(csizeShown); add(cstab);add(csymbol);}
       };
       MyModelColumns mColumns;
   explicit FileParser(int id);
@@ -32,9 +40,15 @@ public:
   sigc::signal<void>& signal_finished();
   sigc::signal<void,int>& signal_progress();
   Glib::RefPtr<Gtk::ListStore> getSymbols(){return mSymbols;}
-
+  Glib::RefPtr<Gtk::TreeStore> getDistribution(){return mSizeDistribution;}
   void addEntry(const Glib::ustring &file, const Glib::ustring &symbol, int size );
+  int getDepth(){return mDepth; }
 private:
+  void addSymbolToTree(Glib::ustring &string, unsigned int size);
+  void fillPercentages();
+  /* also makes the depth calculation*/
+  void fillPercentages(const Gtk::TreeModel::Children &cur, int d);
+
   enum { ITERATIONS = 100 };
 
   // Note that the thread does not write to the member data at all. It only
@@ -42,6 +56,7 @@ private:
   // lauched. Therefore, no locking is required.
   Glib::Thread* thread_;
   int id_;
+  int mDepth;
   unsigned int progress_;
   Glib::Dispatcher signal_increment_;
   sigc::signal<void> signal_finished_;

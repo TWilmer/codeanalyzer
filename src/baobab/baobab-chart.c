@@ -45,7 +45,7 @@
 
 G_DEFINE_ABSTRACT_TYPE (BaobabChart, baobab_chart, GTK_TYPE_WIDGET);
 
-#define BAOBAB_CHART_MAX_DEPTH 8
+#define BAOBAB_CHART_MAX_DEPTH 30
 #define BAOBAB_CHART_MIN_DEPTH 1
 
 enum
@@ -478,10 +478,10 @@ baobab_chart_free_items (GtkWidget *chart)
 
       item = (BaobabChartItem *) node->data;
 
-      g_free (item->name);
+ /*     g_free (item->name);
       g_free (item->size);
 
-      g_free (item->data);
+      g_free (item->data);*/
       item->data = NULL;
 
       g_free (item);
@@ -915,7 +915,10 @@ baobab_chart_button_release (GtkWidget *widget,
   priv = BAOBAB_CHART (widget)->priv;
 
   if (priv->is_frozen)
+  {
+     printf("CHart is froen\n");
     return TRUE;
+  }
 
   switch (event->button)
     {
@@ -925,6 +928,8 @@ baobab_chart_button_release (GtkWidget *widget,
         g_signal_emit (BAOBAB_CHART (widget),
                        baobab_chart_signals[ITEM_ACTIVATED],
                        0, &((BaobabChartItem*) priv->highlighted_item->data)->iter);
+      else
+         printf("No highlight\n");
 
       break;
 
@@ -1529,7 +1534,7 @@ baobab_chart_thaw_updates (GtkWidget *chart)
   g_return_if_fail (BAOBAB_IS_CHART (chart));
 
   priv = BAOBAB_CHART_GET_PRIVATE (chart);
-
+printf("thaw\n");
   if (priv->is_frozen)
     {
       if (priv->model)
@@ -1546,6 +1551,8 @@ baobab_chart_thaw_updates (GtkWidget *chart)
 
       priv->model_changed = TRUE;
       gtk_widget_queue_draw (chart);
+    }else{
+       printf("not frozen\n");
     }
 }
 
