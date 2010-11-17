@@ -13,6 +13,12 @@
 #define HAVE_DECL_BASENAME 1
 //#include "demangle.h"
 
+template<class A>
+A min(const A a, const A b)
+{
+      return a<b ? a : b;
+}
+
 FileParser::FileParser(int id) :
 thread_(0), id_(id), progress_(0), mFile("")
 {
@@ -207,7 +213,7 @@ void FileParser::addSymbolToTree(Glib::ustring &name, unsigned int size)
    {
 
 
-      size_t end=name.find("/",start);
+      size_t end=min(name.find("\\",start),name.find("/",start));
 
       if(end==-1)
       {
@@ -255,7 +261,7 @@ void FileParser::addSymbolToTree(Glib::ustring &name, unsigned int size)
          {
 
             end++;
-         }while(name[end]=='/');
+         }while(name[end]=='/' || name[end]=='\\');
          start=end;
          printf("%d %d",start,name.size());
       }
@@ -350,6 +356,18 @@ void FileParser::thread_function()
             free((void*) name);
 
          }
+         Glib::ustring tmp(symbolName);
+         symbolName="";
+         for(Glib::ustring::iterator it=tmp.begin();
+               it!=tmp.end();
+               it++)
+         {
+            symbolName.append(1, *it);
+            if(*it=='&')
+            {
+               symbolName.append("amp;");
+            }
+         }
 
          Glib::ustring file = "";
          show_globals(symbol_table[i], theBfd, symbol_table, file);
@@ -377,5 +395,9 @@ void FileParser::thread_function()
    progress_ = 101;
    signal_increment_();
 
+}
+FileParser &FileParser::self()
+{
+   return *this;
 }
 

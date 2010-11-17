@@ -43,6 +43,7 @@ public:
   Glib::RefPtr<Gtk::TreeStore> getDistribution(){return mSizeDistribution;}
   void addEntry(const Glib::ustring &file, const Glib::ustring &symbol, int size );
   int getDepth(){return mDepth; }
+  FileParser &self();
 private:
   void addSymbolToTree(Glib::ustring &string, unsigned int size);
   void fillPercentages();

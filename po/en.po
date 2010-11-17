@@ -18,13 +18,15 @@ msgstr "Onject File"
 msgid ""
 "Pay for this Feature 500 EUR to the Author and it will be implemented. Or do "
 "it on your own."
-msgstr "Pay for this Feature 500 EUR to the Author and it will be implemented. Or do it on your own."
+msgstr ""
+"Pay for this Feature 500 EUR to the Author and it will be implemented. Or do "
+"it on your own."
 
 #: ../src/main.cc:174
 msgid "Unimplemented Feature"
-msgstr ""
+msgstr "Unimplemented Feature"
 
-#: ../src/main.cc:212
+#: ../src/main.cc:212 ../src/main.cc:220
 msgid "Size"
 msgstr "Size"
 
@@ -32,10 +34,13 @@ msgstr "Size"
 msgid "Source"
 msgstr "Source"
 
-#: ../src/main.cc:214
-#, fuzzy
+#: ../src/main.cc:214 ../src/main.cc:219
 msgid "Symbol"
 msgstr "Symbol"
+
+#: ../src/main.cc:221
+msgid "Percentage"
+msgstr "Percentage"
 
 #: ../src/baobab/baobab-chart.c:206
 msgid "Maximum depth"
@@ -95,16 +100,19 @@ msgid "Treeview"
 msgstr "Treeview"
 
 #: ../src/codeanalyzer.glade.h:6
-msgid "_Datei"
+msgid "_File"
 msgstr "_File"
 
 #: ../src/codeanalyzer.glade.h:7
-msgid "_Hilfe"
+msgid "_Help"
 msgstr "_Help"
 
 #: ../src/codeanalyzer.glade.h:8
 msgid "label"
 msgstr "###"
+
+#~ msgid "_Datei"
+#~ msgstr "_File"
 
 #~ msgid "Ringchart:"
 #~ msgstr "Ringchart:"

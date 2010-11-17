@@ -216,9 +216,9 @@ void onFinished()
 
 theDebugView->set_model(theParser->getDistribution());
 theDebugView->remove_all_columns();
-theDebugView->append_column("Symbol", theParser->mColumns.symbol);
-theDebugView->append_column("Size", theParser->mColumns.size);
-theDebugView->append_column("Percentage", theParser->mColumns.percentage);
+theDebugView->append_column(_("Symbol"), theParser->mColumns.symbol);
+theDebugView->append_column(_("Size"), theParser->mColumns.size);
+theDebugView->append_column(_("Percentage"), theParser->mColumns.percentage);
 
 
    baobab_chart_freeze_updates(rings_chart);
