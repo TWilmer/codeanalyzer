@@ -111,21 +111,17 @@ void doOpen()
     dialog.add_button(Gtk::Stock::OPEN, Gtk::RESPONSE_OK);
 
     //Add filters, so that only certain file types can be selected:
-    Gtk::FileFilter filter_any;
-    filter_any.set_name(_("Any files"));
-    filter_any.add_pattern("*");
+    Glib::RefPtr< Gtk::FileFilter > filter_any=Gtk::FileFilter::create ();
+    filter_any->set_name(_("Any files"));
+    filter_any->add_pattern("*");
     dialog.add_filter(filter_any);
 
 
-    Gtk::FileFilter filter_text;
-    filter_text.set_name(_("Application File"));
-    filter_text.add_mime_type("application/x-executable");
+    Glib::RefPtr< Gtk::FileFilter > filter_text=Gtk::FileFilter::create ();
+    filter_text->set_name(_("Application File"));
+    filter_text->add_mime_type("application/x-executable");
     dialog.add_filter(filter_text);
 
-    Gtk::FileFilter filter_obj;
-    filter_obj.set_name(_("Object File"));
-    filter_obj.add_mime_type("application/x-object");
-    dialog.add_filter(filter_obj);
 
 
 
@@ -380,7 +376,7 @@ textdomain (GETTEXT_PACKAGE);
 
  Glib::RefPtr<Gtk::IconFactory> factory = Gtk::IconFactory::create();
 
-   std::list<Glib::RefPtr<Gdk::Pixbuf> > iconList;
+   std::vector<Glib::RefPtr<Gdk::Pixbuf> > iconList;
 
    for (int i = 0; i < sizeof(sIconData) / sizeof(sIconData[0]); i++)
    {

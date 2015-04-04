@@ -44,8 +44,8 @@
                                             BAOBAB_RINGSCHART_TYPE, \
                                             BaobabRingschartPrivate))
 
-#define CENTER_X(widget) (widget->allocation.width / 2)
-#define CENTER_Y(widget) (widget->allocation.height / 2)
+#define CENTER_X(widget) (gtk_widget_get_allocated_width(widget)/ 2)
+#define CENTER_Y(widget) (gtk_widget_get_allocated_height(widget) / 2)
 
 #define ITEM_BORDER_WIDTH  1
 #define CHART_PADDING     13
@@ -338,8 +338,8 @@ baobab_ringschart_get_item_rectangle (GtkWidget *chart,
   a1 = data->start_angle;
   a2 = data->start_angle + data->angle;
 
-  rect.x = chart->allocation.width;
-  rect.y = chart->allocation.height;
+  rect.x = gtk_widget_get_allocated_width(chart);
+  rect.y = gtk_widget_get_allocated_height(chart);
   rect.width = 0;
   rect.height = 0;
 
@@ -441,8 +441,8 @@ baobab_ringschart_draw_subfolder_tips (GtkWidget *chart, cairo_t *cr)
 
   priv = BAOBAB_RINGSCHART_GET_PRIVATE (chart);
 
-  q_width = chart->allocation.width / 2;
-  q_height = chart->allocation.height / 2;
+  q_width = gtk_widget_get_allocated_width(chart) / 2;
+  q_height = gtk_widget_get_allocated_height(chart) / 2;
   q_angle = atan2 (q_height, q_width);
 
   memset (&last_rect, 0, sizeof (GdkRectangle));
@@ -505,10 +505,10 @@ baobab_ringschart_draw_subfolder_tips (GtkWidget *chart, cairo_t *cr)
       while (a > M_PI/2)
         {
           if (i % 2 == 0)
-            tooltip_rect.x = chart->allocation.width - tooltip_rect.x
+            tooltip_rect.x = gtk_widget_get_allocated_width(chart) - tooltip_rect.x
                              - tooltip_rect.width;
           else
-            tooltip_rect.y = chart->allocation.height - tooltip_rect.y
+            tooltip_rect.y = gtk_widget_get_allocated_height(chart) - tooltip_rect.y
                              - tooltip_rect.height;
 
           i++;
